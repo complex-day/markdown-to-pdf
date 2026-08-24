@@ -60,13 +60,16 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const theme = body.theme || "github-light";
+    const theme: ThemeType = (body.theme as ThemeType) || "github-light";
     const coverPage = body.coverPage;
     const toc = body.toc;
     const headerFooter = body.headerFooter;
-    const pageFormat = body.pageFormat || "A4";
-    const orientation = body.orientation || "portrait";
-    const marginPreset = body.marginPreset || "normal";
+    const pageFormat: PageFormat = (body.pageFormat as PageFormat) || "A4";
+    const orientation: PageOrientation = (body.orientation as PageOrientation) || "portrait";
+    const marginPreset: MarginPreset =
+      body.marginPreset && body.marginPreset in MARGIN_VALUES
+        ? (body.marginPreset as MarginPreset)
+        : "normal";
     const customMargins = body.customMargins;
     const watermark = body.watermark;
     const metadata = body.metadata || {};
